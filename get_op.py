@@ -40,4 +40,16 @@ if arguments.repo and arguments.token:
             os.system('git clone https://%s@github.com/%s %s' % (arguments.token, full_repo_name, install_path))
         # Execute make
         os.system('cd %s && make && make install && make clean' % (install_path))
-            
+    elif config[0].get('platform', '') == 'docker':
+        # Pull image
+        try: os.system('docker pull ghcr.io/%s:main' % (full_repo_name))
+        except: pass
+        # Stop container
+        try: os.system('docker stop %s' % (repo_name))
+        except: pass
+        # Remove container
+        try: os.system('docker stop %s' % (repo_name))
+        except: pass
+        # Run image
+        try: os.system('docker run -p 0.0.0.0:%d:5001/tcp -d --name %s ghcr.io/%s' % (config[0].get('port', 5001), repo_name, full_repo_name))
+        except: pass
