@@ -39,5 +39,5 @@ if arguments.repo and arguments.token:
         else:
             os.system('git clone https://%s@github.com/%s %s' % (arguments.token, full_repo_name, install_path))
         # Execute make
-        os.system('cd %s && make && make install' % (install_path))
+        os.system('cd %s && make && make install && make clean' % (install_path))
             
