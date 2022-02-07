@@ -3,4 +3,5 @@ curl -s https://raw.githubusercontent.com/iortio/get_op/main/get_op.py | python3
 
 # Use of repo from Python Script
  from iort_function_sum.main import main as sum314
+ 
  sum314(3,4)
