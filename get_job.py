@@ -19,7 +19,7 @@ if arguments.repo and arguments.token:
     job_repo_name = '.'.join(arguments.repo.split('/')[-1].split('.')[:-1])
 
     # Get configuration
-    url = 'https://%s@raw.githubusercontent.com/%s/main/config.yaml' % (arguments.token, full_repo_name)
+    url = 'https://%s@raw.githubusercontent.com/%s/main/config.yaml' % (arguments.token, job_full_repo_name)
     job_config = yaml.load(httpx.get(url).text, Loader=yaml.Loader)
 
     # Install packages
