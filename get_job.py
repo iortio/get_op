@@ -27,7 +27,7 @@ if arguments.repo and arguments.token:
         os.mkdir('/opt/jobs')
     python_path = max([elem for elem in sys.path if elem.endswith('dist-packages')], key=len)
     if not os.path.islink(os.path.join(python_path, 'iort_jobs')):
-        os.system('ln -s /opt/jobs %s' % (ops_path, os.path.join(python_path, 'iort_jobs')))
+        os.system('ln -s /opt/jobs %s' % (os.path.join(python_path, 'iort_jobs')))
         
     # Clone job repo
     install_path = '/opt/jobs'
