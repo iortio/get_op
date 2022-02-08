@@ -15,7 +15,7 @@ fo.write('from pydantic import BaseModel\n\n')
 fo.write('app = FastAPI()\n\n')
 
 # Iterate over endpoints
-for root, dirs, files in os.walk("endpoints", topdown=False, followlinks=True):
+for root, dirs, files in os.walk("/opt/endpoints", topdown=False, followlinks=True):
     for name in files:
         if name == 'main.py':
             fo.write('# %s\n' % (root))
