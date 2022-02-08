@@ -29,7 +29,7 @@ if arguments.repo and arguments.token:
     if os.path.isdir(os.path.join(install_path, job_repo_name)):
         os.system('cd %s/%s && git pull origin main' % (install_path, job_repo_name))
     else:
-        os.system('git clone https://%s@github.com/%s %s' % (arguments.token, job_full_repo_name, install_path))
+        os.system('git clone https://%s@github.com/%s %s/%s' % (arguments.token, job_full_repo_name, install_path, job_repo_name))
 
     # Install packages
     for op_repo in job_config[0].get('ops', []):
