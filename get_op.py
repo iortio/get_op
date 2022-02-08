@@ -42,18 +42,14 @@ if arguments.repo and arguments.token:
         os.system('cd %s && make && make install && make clean' % (install_path))
     elif config[0].get('platform', '') == 'docker':
         # Pull image
-        os.system('echo "docker pull ghcr.io/%s:main"' % (full_repo_name))
         try: os.system('docker pull ghcr.io/%s:main' % (full_repo_name))
         except: pass
         # Stop container
-        os.system('echo "docker stop %s"' % (repo_name))
         try: os.system('docker stop %s' % (repo_name))
         except: pass
         # Remove container
-        os.system('echo "docker rm %s"' % (repo_name))
         try: os.system('docker rm %s' % (repo_name))
         except: pass
         # Run image
-        #os.system('echo "docker run -p 0.0.0.0:%d:5001/tcp -d --name %s ghcr.io/%s"' % (config[0].get('port', 5001), repo_name, full_repo_name))
-        #try: os.system('docker run -p 0.0.0.0:%d:5001/tcp -d --name %s ghcr.io/%s' % (config[0].get('port', 5001), repo_name, full_repo_name))
-        #except: pass
+        try: os.system('docker run -p 0.0.0.0:%d:5001/tcp -d --name %s ghcr.io/%s:main' % (config[0].get('port', 5001), repo_name, full_repo_name))
+        except: pass
