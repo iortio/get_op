@@ -53,3 +53,14 @@ if arguments.repo and arguments.token:
         # Run image
         try: os.system('docker run -p 0.0.0.0:%d:5001/tcp -d --name %s ghcr.io/%s:main' % (config[0].get('port', 5001), repo_name, full_repo_name))
         except: pass
+    elif config[0].get('platform', '') == 'fastapi':
+        # Create endpoints directory if it does not exist
+        if not os.path.isdir('/opt/endpoints'):
+            os.mkdir('/opt/endpoints')
+        # Makefile installation
+        install_path = '/opt/endpoints/%s' % (repo_name)
+        # Get code
+        if os.path.isdir(os.path.join(install_path, repo_name)):
+            os.system('cd %s && git pull origin main' % (install_path))
+        else:
+            os.system('git clone https://%s@github.com/%s %s' % (arguments.token, full_repo_name, install_path))
