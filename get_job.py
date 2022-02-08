@@ -21,10 +21,15 @@ if arguments.repo and arguments.token:
     # Get configuration
     url = 'https://%s@raw.githubusercontent.com/%s/main/config.yaml' % (arguments.token, job_full_repo_name)
     job_config = yaml.load(httpx.get(url).text, Loader=yaml.Loader)
-    
-    # Clone job repo
+
+    # Create jobs folder and links
     if not os.path.isdir('/opt/jobs'):
         os.mkdir('/opt/jobs')
+    python_path = max([elem for elem in sys.path if elem.endswith('dist-packages')], key=len)
+    if not os.path.islink(os.path.join(python_path, 'iort_jobs')):
+        os.system('ln -s /opt/jobs %s' % (ops_path, os.path.join(python_path, 'iort_jobs')))
+        
+    # Clone job repo
     install_path = '/opt/jobs'
     if os.path.isdir(os.path.join(install_path, job_repo_name)):
         os.system('cd %s/%s && git pull origin main' % (install_path, job_repo_name))
