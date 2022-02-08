@@ -23,7 +23,7 @@ if arguments.repo and arguments.token:
     job_config = yaml.load(httpx.get(url).text, Loader=yaml.Loader)
     
     # Clone job repo
-    if not os.path.isdir('/opt/endpoints'):
+    if not os.path.isdir('/opt/jobs'):
         os.mkdir('/opt/jobs')
     install_path = '/opt/jobs'
     if os.path.isdir(os.path.join(install_path, job_repo_name)):
