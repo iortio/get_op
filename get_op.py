@@ -60,7 +60,10 @@ if arguments.repo and arguments.token:
         # Create endpoints directory if it does not exist
         if not os.path.isdir('/opt/endpoints'):
             os.mkdir('/opt/endpoints')
-        # Link installation
+        # Link endpoint
         install_path = '/opt/endpoints/%s' % (repo_name)
         if not os.path.islink(os.path.join(install_path, repo_name)):
             os.system('ln -s %s/%s %s' % (ops_path, repo_name, install_path))
+        # Build API
+        os.system('curl -s https://raw.githubusercontent.com/iortio/get_op/main/build_api.py | sudo python3 -')
+            
