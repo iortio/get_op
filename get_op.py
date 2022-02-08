@@ -55,5 +55,5 @@ if arguments.repo and arguments.token:
         except: pass
         # Run image
         os.system('echo "docker run -p 0.0.0.0:%d:5001/tcp -d --name %s ghcr.io/%s"' % (config[0].get('port', 5001), repo_name, full_repo_name))
-        try: os.system('docker run -p 0.0.0.0:%d:5001/tcp -d --name %s ghcr.io/%s' % (config[0].get('port', 5001), repo_name, full_repo_name))
-        except: pass
+        #try: os.system('docker run -p 0.0.0.0:%d:5001/tcp -d --name %s ghcr.io/%s' % (config[0].get('port', 5001), repo_name, full_repo_name))
+        #except: pass
