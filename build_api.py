@@ -1,8 +1,12 @@
 import os
 
 
+# Create api folder
+if not os.path.isdir('/opt/api'):
+    os.mkdir('/opt/api')
+
 # Create API file
-fo = open('main.py', 'w')
+fo = open('/opt/api/main.py', 'w')
 
 # Add header
 fo.write('from typing import Optional, Union\n')
