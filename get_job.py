@@ -25,9 +25,9 @@ if arguments.repo and arguments.token:
     # Clone job repo
     if not os.path.isdir('/opt/endpoints'):
         os.mkdir('/opt/jobs')
-    install_path = '/opt/jobs/%s' % (repo_name)
+    install_path = '/opt/jobs'
     if os.path.isdir(os.path.join(install_path, job_repo_name)):
-        os.system('cd %s && git pull origin main' % (install_path))
+        os.system('cd %s/%s && git pull origin main' % (install_path, job_repo_name))
     else:
         os.system('git clone https://%s@github.com/%s %s' % (arguments.token, job_full_repo_name, install_path))
 
