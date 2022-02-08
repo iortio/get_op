@@ -21,6 +21,13 @@ if arguments.repo and arguments.token:
     # Get configuration
     url = 'https://%s@raw.githubusercontent.com/%s/main/config.yaml' % (arguments.token, job_full_repo_name)
     job_config = yaml.load(httpx.get(url).text, Loader=yaml.Loader)
+    
+    # Clone job repo
+    install_path = '/opt/%s' % (repo_name)
+    if os.path.isdir(os.path.join(install_path, job_repo_name)):
+        os.system('cd %s && git pull origin main' % (install_path))
+    else:
+        os.system('git clone https://%s@github.com/%s %s' % (arguments.token, job_full_repo_name, install_path))
 
     # Install packages
     for op in job_config[0].get('ops', []):
