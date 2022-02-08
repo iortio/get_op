@@ -12,11 +12,23 @@ parser.add_argument('-t', '--token', default='', nargs='?', help='Token')
 arguments = parser.parse_args()
 
 
+# Create ops folder
+ops_path = '/opt/ops'
+if not os.path.isdir(ops_path):
+    os.mkdir(ops_path)
+
+
 # Pull or clone repo
 if arguments.repo and arguments.token:
     # Define repo auxiliar names
     full_repo_name = '.'.join(arguments.repo.split('https://github.com/')[1].split('.')[:-1])
     repo_name = '.'.join(arguments.repo.split('/')[-1].split('.')[:-1])
+
+    # Clone into ops folder
+    if os.path.isdir(os.path.join(ops_path, repo_name)):
+        os.system('cd %s/%s && git pull origin main' % (ops_path, repo_name))
+    else:
+        os.system('git clone https://%s@github.com/%s %s/%s' % (arguments.token, full_repo_name, ops_path, repo_name))
 
     # Get configuration
     url = 'https://%s@raw.githubusercontent.com/%s/main/config.yaml' % (arguments.token, full_repo_name)
@@ -24,22 +36,13 @@ if arguments.repo and arguments.token:
 
     # Install packages
     if config[0].get('platform', '') == 'python':
-        # Python installation
+        # Link into dist library folder
         install_path = max([elem for elem in sys.path if elem.endswith('dist-packages')], key=len)
-        if os.path.isdir(os.path.join(install_path, repo_name)):
-            os.system('cd %s && git pull origin main' % (os.path.join(install_path, repo_name)))
-        else:
-            os.system('git clone https://%s@github.com/%s %s' % (arguments.token, full_repo_name, os.path.join(install_path, repo_name)))
+        if not os.path.islink(os.path.join(install_path, repo_name)):
+            os.system('ln -s %s/%s %s' % (ops_path, repo_name, install_path))
     elif config[0].get('platform', '') == 'make':
-        # Makefile installation
-        install_path = '/opt/%s' % (repo_name)
-        # Get code
-        if os.path.isdir(os.path.join(install_path, repo_name)):
-            os.system('cd %s && git pull origin main' % (install_path))
-        else:
-            os.system('git clone https://%s@github.com/%s %s' % (arguments.token, full_repo_name, install_path))
         # Execute make
-        os.system('cd %s && make && make install && make clean' % (install_path))
+        os.system('cd %s/%s && make && make install && make clean' % (ops_path, repo_name))
     elif config[0].get('platform', '') == 'docker':
         # Pull image
         try: os.system('docker pull ghcr.io/%s:main' % (full_repo_name))
@@ -57,10 +60,7 @@ if arguments.repo and arguments.token:
         # Create endpoints directory if it does not exist
         if not os.path.isdir('/opt/endpoints'):
             os.mkdir('/opt/endpoints')
-        # Makefile installation
+        # Link installation
         install_path = '/opt/endpoints/%s' % (repo_name)
-        # Get code
-        if os.path.isdir(os.path.join(install_path, repo_name)):
-            os.system('cd %s && git pull origin main' % (install_path))
-        else:
-            os.system('git clone https://%s@github.com/%s %s' % (arguments.token, full_repo_name, install_path))
+        if not os.path.islink(os.path.join(install_path, repo_name)):
+            os.system('ln -s %s/%s %s' % (ops_path, repo_name, install_path))
