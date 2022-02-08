@@ -23,7 +23,9 @@ if arguments.repo and arguments.token:
     job_config = yaml.load(httpx.get(url).text, Loader=yaml.Loader)
     
     # Clone job repo
-    install_path = '/opt/%s' % (repo_name)
+    if not os.path.isdir('/opt/endpoints'):
+        os.mkdir('/opt/jobs')
+    install_path = '/opt/jobs/%s' % (repo_name)
     if os.path.isdir(os.path.join(install_path, job_repo_name)):
         os.system('cd %s && git pull origin main' % (install_path))
     else:
