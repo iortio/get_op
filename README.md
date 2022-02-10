@@ -7,6 +7,8 @@
 # Install and run FastAPI Docker example repo from server (iort_example_docker)
  curl -s https://raw.githubusercontent.com/iortio/get_op/main/get_op.py | sudo python3 - -r https://github.com/iortio/iort_example_docker.git -t PAT_TOKEN
 
+# Build environment
+ curl -s https://raw.githubusercontent.com/iortio/get_op/main/build_environment.py | sudo python3 - -r https://github.com/iortio/environment_dotest.git -t PAT_TOKEN
 
 # Use of repo from Python Script
 
