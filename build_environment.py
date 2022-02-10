@@ -42,4 +42,4 @@ if arguments.repo and arguments.token:
     # Install pip packages
     requirements_pip = ' '.join(config.get('requirements_pip', []))
     if requirements_pip:
-        os.system('pip3 install -r %s' % (requirements_pip))
+        os.system('pip3 install %s' % (requirements_pip))
