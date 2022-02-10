@@ -35,11 +35,11 @@ if arguments.repo and arguments.token:
     config = yaml.load(httpx.get(url).text, Loader=yaml.Loader)
 
     # Install apt packages
-    requirements_apt = ' '.join(config[0].get('requirements_apt', []))
+    requirements_apt = ' '.join(config.get('requirements_apt', []))
     if requirements_apt:
         os.system('apt-get update && apt-get install --no-install-recommends -q -y %s' % (requirements_apt))
 
     # Install pip packages
-    requirements_pip = ' '.join(config[0].get('requirements_pip', []))
+    requirements_pip = ' '.join(config.get('requirements_pip', []))
     if requirements_pip:
         os.system('pip3 install -r %s' % (requirements_pip))
