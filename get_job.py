@@ -35,7 +35,3 @@ if arguments.repo and arguments.token:
         os.system('cd %s/%s && git pull origin main' % (install_path, job_repo_name))
     else:
         os.system('git clone https://%s@github.com/%s %s/%s' % (arguments.token, job_full_repo_name, install_path, job_repo_name))
-
-    # Install packages
-    for op_repo in job_config[0].get('ops', []):
-        os.system('curl -s https://raw.githubusercontent.com/iortio/get_op/main/get_op.py | sudo python3 - -r %s -t %s' % (op_repo, arguments.token))
