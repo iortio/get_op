@@ -43,3 +43,12 @@ if arguments.repo and arguments.token:
     requirements_pip = ' '.join(config.get('requirements_pip', []))
     if requirements_pip:
         os.system('pip3 install %s' % (requirements_pip))
+        
+    # Install ops
+    for op in config.get('ops', []):
+        os.system('curl -s https://raw.githubusercontent.com/iortio/get_op/main/get_op.py | sudo python3 - -r %s -t %s' % (op, arguments.token))
+    
+    # Install jobs
+    for job in config.get('jobs', []):
+        os.system('curl -s https://raw.githubusercontent.com/iortio/get_op/main/get_job.py | sudo python3 - -r %s -t %s' % (job, arguments.token))
+    
