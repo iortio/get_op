@@ -72,7 +72,7 @@ if arguments.token and repo:
 
         if update_environment:
             # Save config
-            open('%s/%s/config.yaml' % (envs_path, env_name), 'w').write(yaml.dump(config))
+            open('%s/%s/config.yaml' % (envs_path, env_name), 'w').write(yaml.dump(env_config))
 
             # Update repo
             os.system('cd %s/%s && git add . && git commit -m "Environment updated"  && git push origin main' % (envs_path, env_name))
